@@ -27,7 +27,7 @@ public class Task {
 
     private String title;
 
-    private String content;
+    private String description;
 
     private LocalDateTime createdAt;
 }
