@@ -10,6 +10,7 @@
 
 <input id="taskTitle" placeholder="Task title">
 <input id="taskDesc" placeholder="Description">
+<div id="tagCheckboxes"></div>
 <button onclick="createTask()">Add</button>
 
 <ul id="taskList"></ul>
@@ -45,14 +46,19 @@
     async function createTask() {
         const title = document.getElementById('taskTitle').value;
         const description = document.getElementById('taskDesc').value;
+        const tagIds = [...document.querySelectorAll('#tagCheckboxes input:checked')]
+        .map(cb => Number(cb.value));
 
         await fetch('/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, description })
+            body: JSON.stringify({ title, description, tagIds })
         });
+
+        document.querySelectorAll('#tagCheckboxes input[type=checkbox]')
+        .forEach(cb => cb.checked = false);
 
         loadTasks();
     }
@@ -96,6 +102,7 @@
     });
 
     loadTags();
+    loadTagCheckboxes();
     }
 
 
@@ -105,10 +112,26 @@
     });
 
     loadTags();
-}
+    loadTagCheckboxes();
+    }
+
+    async function loadTagCheckboxes() {
+    const res = await fetch('/tags');
+    const tags = await res.json();
+
+    const container = document.getElementById('tagCheckboxes');
+    container.innerHTML = '';
+
+    tags.forEach(tag => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${tag.id}"> ${tag.name}`;
+        container.appendChild(label);
+    });
+    }
 
     loadTasks();
     loadTags();
+    loadTagCheckboxes();
 </script>
 
 </body>

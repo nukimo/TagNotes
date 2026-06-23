@@ -1,5 +1,6 @@
 package com.example.first_project.controller;
 
+import com.example.first_project.dto.TaskRequestDto;
 import com.example.first_project.entity.Task;
 import com.example.first_project.service.TaskService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,8 +25,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public Task createTask(@RequestBody TaskRequestDto dto) {
+        return taskService.createTask(dto);
     }
 
     @GetMapping
@@ -42,5 +43,6 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }
+
 
 }
