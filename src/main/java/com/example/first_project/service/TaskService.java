@@ -2,6 +2,7 @@ package com.example.first_project.service;
 
 import com.example.first_project.dto.TaskRequestDto;
 import com.example.first_project.entity.Tag;
+import com.example.first_project.entity.TaskType;
 import com.example.first_project.repository.TagRepository;
 import com.example.first_project.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,12 @@ public class TaskService {
         task.setTags(tags);
 
         task.setType(dto.getType());
+
+        if (dto.getType() == TaskType.TASK) {
+            task.setDeadline(dto.getDeadline());
+        } else {
+            task.setDeadline(null);
+        }
 
         return taskRepository.save(task);
     }

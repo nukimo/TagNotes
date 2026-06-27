@@ -41,6 +41,8 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskType type;
 
+    private LocalDateTime deadline;
+
     @ManyToMany
     @JoinTable(
             name = "task_tags",

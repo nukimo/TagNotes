@@ -10,11 +10,12 @@
 
 <input id="taskTitle" placeholder="Task title">
 <input id="taskDesc" placeholder="Description">
-<select id="taskType">
+<select id="taskType" onchange="toggleDeadline()">
     <option value="TASK">Task</option>
     <option value="NOTE">Note</option>
     <option value="THOUGHT">Thought</option>
 </select>
+<input type="datetime-local" id="deadline">
 <div id="tagCheckboxes"></div>
 <button onclick="createTask()">Add</button>
 
@@ -37,7 +38,14 @@
 
         tasks.forEach(task => {
             const li = document.createElement('li');
-            li.innerText = task.title + " (" + task.type +") " + " - " + task.description;
+
+            let text =  task.title + " (" + task.type +") " + " - " + task.description;
+
+            if (task.deadline) {
+                text += "| Deadline: " + task.deadline;
+            }
+
+            li.innerText = text
 
             const delBtn = document.createElement('button');
             delBtn.innerText = 'Delete';
@@ -52,6 +60,7 @@
         const title = document.getElementById('taskTitle').value;
         const description = document.getElementById('taskDesc').value;
         const type = document.getElementById('taskType').value;
+        const deadline = document.getElementById('deadline').value;
         const tagIds = [...document.querySelectorAll('#tagCheckboxes input:checked')]
         .map(cb => Number(cb.value));
 
@@ -60,7 +69,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, description, type, tagIds })
+            body: JSON.stringify({ title, description, type, deadline, tagIds })
         });
 
         document.querySelectorAll('#tagCheckboxes input[type=checkbox]')
@@ -135,9 +144,22 @@
     });
     }
 
+    function toggleDeadline() {
+        const type = document.getElementById("taskType").value;
+        const deadline = document.getElementById("deadline");
+
+        if (type === "TASK") {
+            deadline.style.display = "inline";
+        } else{
+            deadline.style.display = "none";
+            deadline.value = "";
+        }
+    }
+
     loadTasks();
     loadTags();
     loadTagCheckboxes();
+    toggleDeadline();
 </script>
 
 </body>

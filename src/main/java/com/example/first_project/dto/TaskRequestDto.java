@@ -4,6 +4,7 @@ import com.example.first_project.entity.TaskType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,4 +15,6 @@ public class TaskRequestDto {
     private String description;
     private Set<Long> tagIds = new HashSet<>();
     private TaskType type;
+    private LocalDateTime deadline;
+    
 }
