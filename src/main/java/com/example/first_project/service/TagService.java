@@ -28,6 +28,11 @@ public class TagService {
     }
 
     public void deleteTag(Long id){
-        tagRepository.deleteById(id);
+        Tag tag = tagRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Tag not found"));
+
+        tag.getTasks().forEach(task -> task.getTags().remove(tag));
+
+        tagRepository.delete(tag);
     }
 }
