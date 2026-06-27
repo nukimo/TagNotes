@@ -2,6 +2,8 @@ package com.example.first_project.entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +37,9 @@ public class Task {
     private String description;
 
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private TaskType type;
 
     @ManyToMany
     @JoinTable(

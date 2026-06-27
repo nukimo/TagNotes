@@ -31,6 +31,8 @@ public class TaskService {
         Set<Tag> tags = new HashSet<>(tagRepository.findAllById(dto.getTagIds()));
         task.setTags(tags);
 
+        task.setType(dto.getType());
+
         return taskRepository.save(task);
     }
 

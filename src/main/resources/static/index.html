@@ -10,6 +10,11 @@
 
 <input id="taskTitle" placeholder="Task title">
 <input id="taskDesc" placeholder="Description">
+<select id="taskType">
+    <option value="TASK">Task</option>
+    <option value="NOTE">Note</option>
+    <option value="THOUGHT">Thought</option>
+</select>
 <div id="tagCheckboxes"></div>
 <button onclick="createTask()">Add</button>
 
@@ -32,7 +37,7 @@
 
         tasks.forEach(task => {
             const li = document.createElement('li');
-            li.innerText = task.title + " - " + task.description;
+            li.innerText = task.title + " (" + task.type +") " + " - " + task.description;
 
             const delBtn = document.createElement('button');
             delBtn.innerText = 'Delete';
@@ -46,6 +51,7 @@
     async function createTask() {
         const title = document.getElementById('taskTitle').value;
         const description = document.getElementById('taskDesc').value;
+        const type = document.getElementById('taskType').value;
         const tagIds = [...document.querySelectorAll('#tagCheckboxes input:checked')]
         .map(cb => Number(cb.value));
 
@@ -54,7 +60,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, description, tagIds })
+            body: JSON.stringify({ title, description, type, tagIds })
         });
 
         document.querySelectorAll('#tagCheckboxes input[type=checkbox]')
