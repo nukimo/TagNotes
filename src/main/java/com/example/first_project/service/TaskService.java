@@ -2,11 +2,11 @@ package com.example.first_project.service;
 
 import com.example.first_project.dto.TaskRequestDto;
 import com.example.first_project.entity.Tag;
+import com.example.first_project.entity.Task;
 import com.example.first_project.entity.TaskType;
 import com.example.first_project.repository.TagRepository;
 import com.example.first_project.repository.TaskRepository;
 import org.springframework.stereotype.Service;
-import com.example.first_project.entity.Task;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -47,12 +47,32 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task getTaskById(Long id){
+    public Task getTaskById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task now found"));
     }
 
-    public void deleteTask(Long id){
+    public Task updateTask(Long id, TaskRequestDto dto) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        task.setTitle(dto.getTitle());
+        task.setDescription(dto.getDescription());
+        task.setType(dto.getType());
+
+        if (dto.getType() == TaskType.TASK) {
+            task.setDeadline(dto.getDeadline());
+        } else{
+            task.setDeadline(null);
+        }
+
+        Set<Tag> tags = new HashSet<>(tagRepository.findAllById(dto.getTagIds()));
+        task.setTags(tags);
+
+        return taskRepository.save(task);
+    }
+
+    public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
 }
