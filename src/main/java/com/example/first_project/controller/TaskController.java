@@ -3,6 +3,7 @@ package com.example.first_project.controller;
 import com.example.first_project.dto.TaskRequestDto;
 import com.example.first_project.entity.Task;
 import com.example.first_project.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(@RequestBody TaskRequestDto dto) {
+    public Task createTask(@Valid @RequestBody TaskRequestDto dto) {
         return taskService.createTask(dto);
     }
 

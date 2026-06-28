@@ -1,7 +1,9 @@
 package com.example.first_project.controller;
 
+import com.example.first_project.dto.TagRequestDto;
 import com.example.first_project.entity.Tag;
 import com.example.first_project.service.TagService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +24,7 @@ public class TagController {
     }
 
     @PostMapping
-    public Tag createTag(@RequestBody Tag tag) {
+    public Tag createTag(@Valid @RequestBody TagRequestDto tag) {
         return tagService.createTag(tag);
     }
 

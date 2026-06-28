@@ -1,5 +1,6 @@
 package com.example.first_project.service;
 
+import com.example.first_project.dto.TagRequestDto;
 import com.example.first_project.entity.Tag;
 import com.example.first_project.repository.TagRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public Tag createTag(Tag tag){
+    public Tag createTag(TagRequestDto dto){
+        Tag tag = new Tag();
+        tag.setName(dto.getName());
         return tagRepository.save(tag);
     }
 
